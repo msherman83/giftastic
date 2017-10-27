@@ -10,19 +10,22 @@ var topics = ["texas chainsaw massacre", "friday the 13th", "puppet master", "ev
 $(function () {
 
     // loop through array to add buttons to page.
-    for (var i = 0; i < topics.length; i++) {
+    var addButton = function () {
+        for (var i = 0; i < topics.length; i++) {
 
-        var button = $('<button />', {
-            text: topics[i],
-            id: 'btn' + i,
-            class: "button"
+            var button = $('<button />', {
+                text: topics[i],
+                id: 'btn' + i,
+                class: "button"
 
-        });
+            });
 
-        $("#buttons").append(button);
+            $("#buttons").append(button);
 
-    }
+        }
+    };
 
+    addButton();
 
     // click a button to display 10 random gifs (still images)
     $(".button").on("click", function () {
@@ -108,11 +111,62 @@ $(function () {
 
         //adds the new movie
 
-        var newButton = $("<button>").addClass("btn btn-info movie").attr('data-name', movieButton).html(movieButton).css({
-            'margin': '5px'
-        })
+        var Button = $("<button>").addClass("new-button").attr('id', "btn5").html(movieButton)
 
-        $("#buttons").append(newButton);
+        $("#buttons").append(Button);
+
+    });
+
+    // NOT WORKING?  TRIED #buttons, .new-button, etc.  #buttons outputs 2 TCM gifs for some reason.
+
+
+    $(".new-button").on("click", function () {
+
+        // Upon clicking new button it empties the content before applying new content.
+        $("#gifs-appear-here").empty();
+
+        // In this case, the "this" keyword refers to the button that was clicked
+        var person = $(this).text();
+        // Constructing a URL to search Giphy for the name of the person who said the quote
+        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+            person + "&api_key=dc6zaTOxFJmzC&limit=10";
+        // Performing our AJAX GET request
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        })
+            // After the data comes back from the API
+            .done(function (response) {
+                // Storing an array of results in the results variable
+                var results = response.data;
+                // Looping over every result item
+                for (var i = 0; i < results.length; i++) {
+                    // Only taking action if the photo has an appropriate rating
+                    if (results[i].rating !== "r" && results[i].rating !== "pg-13") {
+                        // Creating a div with the class "item"
+                        var gifDiv = $("<div class='item'>");
+                        // Storing the result item's rating
+                        var rating = results[i].rating;
+                        // Creating a paragraph tag with the result item's rating
+                        var p = $("<p>").text("Rating: " + rating);
+                        // Creating an image tag
+                        var personImage = $("<img>");
+                        personImage.addClass('personGif');
+                        // starting image as a still image.  but also attaching attributes for fixed height and to animate them.
+                        personImage.attr('src', results[i].images.fixed_height_still.url)
+                        personImage.attr('data-still', results[i].images.fixed_height_still.url)
+                        personImage.attr('data-animate', results[i].images.fixed_height.url)
+
+                        personImage.attr('data-state', 'still');
+                        // Appending the paragraph and personImage we created to the "gifDiv" div we created
+                        gifDiv.append(p);
+                        gifDiv.append(personImage);
+                        // Prepending the gifDiv to the "#gifs-appear-here" div in the HTML
+                        $("#gifs-appear-here").prepend(gifDiv);
+                    }
+                }
+
+            });
     });
 
 });

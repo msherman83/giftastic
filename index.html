@@ -14,30 +14,56 @@
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
         crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css?family=Orbitron" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Creepster" rel="stylesheet">
     <link rel="stylesheet" content="text/css" href="./assets/css/style.css">
     <!-- <script src="https://use.fontawesome.com/6d9c176f3b.js"></script> -->
     <title>GifTastic!</title>
 </head>
 
+
 <body>
     <div class="container">
         <div class="row">
-            <div class="col-lg-8">
-                <div id="buttons">
+            <div class="col-lg-3">
 
+            </div>
+            <div class="col-lg-6">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h1 class="text-center">GifTastic Horror Edition!</h1>
+                    </div>
                 </div>
-                <div id="gifs-appear-here">
+            </div>
+            <div class="col-lg-3">
+
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div id="buttons">
+
+                        </div>
+                        <div id="gifs-appear-here">
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-lg-4">
-                <form>
-                    <div class="form-group">
-                        <label for="add-movie">Add a horror movie!</label>
-                        <input type="text" class="form-control" id="add-movie" placeholder="Cannibal Holocost">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="add-movie">Add a horror movie!</label>
+                                <input type="text" class="form-control" id="add-movie" placeholder="Cannibal Holocost">
+                            </div>
+                            <button type="button" id="submit-new-movie" class="btn btn-default">Submit</button>
+                        </form>
                     </div>
-                    <button type="submit" id="submit-new-movie" class="btn btn-default">Submit</button>
-                </form>
+                </div>
             </div>
         </div>
     </div>
