@@ -1,4 +1,4 @@
-var topics = ["texas chainsaw massacre", "friday the 13th", "puppet master", "evil dead", "dead alive"]
+var topics = ["texas chainsaw massacre", "friday the 13th", "puppet master", "evil dead", "the thing"]
 
 
 // TO DO
@@ -23,8 +23,12 @@ $(function () {
 
     }
 
+
     // click a button to display 10 random gifs (still images)
     $(".button").on("click", function () {
+
+        // Upon clicking new button it empties the content before applying new content.
+        $("#gifs-appear-here").empty();
 
         // In this case, the "this" keyword refers to the button that was clicked
         var person = $(this).text();
@@ -52,9 +56,13 @@ $(function () {
                         var p = $("<p>").text("Rating: " + rating);
                         // Creating an image tag
                         var personImage = $("<img>");
-                        // Giving the image tag an src attribute of a proprty pulled off the
-                        // result item
-                        personImage.attr("src", results[i].images.fixed_height.url);
+                        personImage.addClass('personGif');
+                        // starting image as a still image.  but also attaching attributes for fixed height and to animate them.
+                        personImage.attr('src', results[i].images.fixed_height_still.url)
+                        personImage.attr('data-still', results[i].images.fixed_height_still.url)
+                        personImage.attr('data-animate', results[i].images.fixed_height.url)
+
+                        personImage.attr('data-state', 'still');
                         // Appending the paragraph and personImage we created to the "gifDiv" div we created
                         gifDiv.append(p);
                         gifDiv.append(personImage);
@@ -62,7 +70,49 @@ $(function () {
                         $("#gifs-appear-here").prepend(gifDiv);
                     }
                 }
+
+                // click on gif to animate
+                // click on gif to stop animation
+                $('.personGif').on('click', function () {
+
+                    var state = $(this).attr('data-state');
+                    console.log(this);
+
+                    if (state === 'still') {
+
+                        $(this).attr('src', $(this).data('animate'));
+
+                        $(this).attr('data-state', 'animate');
+
+                    } else {
+
+                        $(this).attr('src', $(this).data('still'));
+
+                        $(this).attr('data-state', 'still');
+                    }
+                });
+
+
             });
+    });
+
+    // adding a movie to the array
+
+    $('#submit-new-movie').on('click', function () {
+        if ($("#add-movie").val() === "") {
+            return false;
+        };
+        var movieButton = $("#add-movie").val();
+        topics.push(movieButton);
+        console.log(topics);
+
+        //adds the new movie
+
+        var newButton = $("<button>").addClass("btn btn-info movie").attr('data-name', movieButton).html(movieButton).css({
+            'margin': '5px'
+        })
+
+        $("#buttons").append(newButton);
     });
 
 });
